@@ -89,4 +89,11 @@ class CategoryController extends Controller
         $this->categoryService->delete($id);
         return redirect()->route('categories.index');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $categories = Category::where('name', 'LIKE', "%{$query}%")->get();
+        return view('categories.index', compact('categories'));
+    }
 }

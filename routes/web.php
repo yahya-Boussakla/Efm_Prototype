@@ -9,3 +9,5 @@ Route::get('/', function () {
 });
 
 Route::resource('/categories', CategoryController::class);
+
+Route::get('/search', [CategoryController::class, 'search'])->name('categories.search');

@@ -7,7 +7,7 @@
     <title>Welcome</title>
 </head>
 <body>
-    <h1>Hello YAHYA</h1>
+    <h1>@lang('messages.greeting')</h1>
     <a href="{{route('categories.index')}}">add category</a>
 </body>
 </html>
