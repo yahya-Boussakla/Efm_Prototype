@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCreateRequest;
+use App\Http\Services\CategoryService;
+use App\Http\Services\ProductService;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -9,9 +13,19 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     protected $productService;
+
+     public function __construct(ProductService $productService)
+     {
+        $this->productService = $productService;
+     }
+
+
     public function index()
     {
-
+        $products = $this->productService->getAllProducts();
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -19,15 +33,19 @@ class ProductController extends Controller
      */
     public function create()
     {
-
+        $categories = $this->productService->getAllCategories();
+        return view('products.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductCreateRequest $request)
     {
-
+        
+        $this->productService->create($request);
+        
+        return redirect()->route('products.index');
     }
 
     /**
@@ -61,4 +79,15 @@ class ProductController extends Controller
     {
         
     }
+
+    public function search(Request $request)
+{
+    $request->validate([
+        'query' => 'required|min:2'
+    ]);
+    
+    $query = $request->input('query');
+    $products = Product::where('name', 'LIKE', "%{$query}%")->get();
+    return view('products.index', compact('products'));
+}
 }

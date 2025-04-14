@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Services\CategoryService;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -37,7 +37,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductCreateRequest $request)
+    public function store(CategoryStoreRequest $request)
     {
 
         $this->categoryService->create($request);
@@ -74,7 +74,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductCreateRequest $request, string $id)
+    public function update(CategoryStoreRequest $request, string $id)
     {
         $this->categoryService->update($request,$id);
         return redirect()->route('categories.index');
